@@ -11,6 +11,7 @@ const Home = () => {
       <Stack direction="row" spacing={2} justifyContent="space-between">
         <Sidebar />
         <Posts />
+        <Box flex={1} p={2} sx={{ display: { xs: "none", sm: "none", md:"block" } }}/>
       </Stack>
     </Box>
   );

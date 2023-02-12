@@ -8,7 +8,7 @@ import {
   StyledIcons,
   StyledToolbar,
   StyledUser,
-} from "./styled components/StyledHelperComponents";
+} from "../common/StyledHelperComponents";
 
 const Navbar = () => {
   return (

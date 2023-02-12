@@ -1,4 +1,4 @@
-import { styled, Toolbar, Box } from "@mui/material";
+import { styled, Toolbar, Box, Modal } from "@mui/material";
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
@@ -17,10 +17,16 @@ const StyledIcons = styled(Box)(({ theme }) => ({
 const StyledUser = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
-  gap: "20px",
+  gap: "10px",
   [theme.breakpoints.up("sm")]: {
     display: "none",
   },
 }));
 
-export { StyledIcons, StyledToolbar, StyledUser };
+const StyledModal = styled(Modal)({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+});
+
+export { StyledIcons, StyledToolbar, StyledUser, StyledModal };

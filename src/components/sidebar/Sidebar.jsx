@@ -13,8 +13,8 @@ import Moon from "@mui/icons-material/ModeNight";
 
 const Sidebar = ({ mode, setMode }) => {
   return (
-    <Box flex={1} p={2}>
-      <Box position="fixed">
+    <Box flex={1} p={2} sx={{ display: { xs: "none", sm: "none", md:"block" } }}>
+      <Box position="fixed" width={{xs: 0, sm: 0, md: 150, lg: 200}}>
         <List>
           <ListItem disablePadding>
             <ListItemButton>
