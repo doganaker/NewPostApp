@@ -10,8 +10,54 @@ import {
 } from "@mui/material";
 import React from "react";
 import Visibility from "@mui/icons-material/Visibility";
+import { openModal } from "../../redux/features/comments/commentSlice";
+import { useDispatch } from "react-redux";
 
-const CommonTable = ({ columns, rows }) => {
+const CommonTable = ({ tableFor, columns, rows }) => {
+  const dispatch = useDispatch();
+  const handleModalVisibility = (postId) => {
+    dispatch(openModal(postId));
+  };
+
+  const rowSetter = () => {
+    debugger
+    if (tableFor === "posts") {
+      return rows.map((row) => (
+        <TableRow
+          key={row.id}
+          sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+        >
+          <TableCell component="th" scope="row">
+            {row.id}
+          </TableCell>
+          <TableCell width={80}>{row.userId}</TableCell>
+          <TableCell>{row.title}</TableCell>
+          <TableCell>{row.body}</TableCell>
+          <TableCell>
+            <Button onClick={() => handleModalVisibility(row.id)}>
+              <Visibility />
+            </Button>
+          </TableCell>
+        </TableRow>
+      ));
+    } else {
+      return rows.map((row) => (
+        <TableRow
+          key={row.id}
+          sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+        >
+          <TableCell component="th" scope="row">
+            {row.id}
+          </TableCell>
+          <TableCell>{row.name}</TableCell>
+          <TableCell>{row.email}</TableCell>
+          <TableCell width={80}>{row.postId}</TableCell>
+          <TableCell>{row.body}</TableCell>
+        </TableRow>
+      ));
+    }
+  };
+
   return (
     <TableContainer component={Paper} variant="outlined">
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -22,27 +68,7 @@ const CommonTable = ({ columns, rows }) => {
             ))}
           </TableRow>
         </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell>{row.calories}</TableCell>
-              <TableCell>{row.fat}</TableCell>
-              <TableCell>{row.carbs}</TableCell>
-              <TableCell>{row.protein}</TableCell>
-              <TableCell>
-                <Button>
-                  <Visibility />
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        <TableBody>{rowSetter()}</TableBody>
       </Table>
     </TableContainer>
   );
