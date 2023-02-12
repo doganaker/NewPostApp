@@ -7,33 +7,33 @@ import {
   IconButton,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useState } from "react";
 import { StyledModal } from "../common/StyledHelperComponents";
 import CloseIcon from "@mui/icons-material/Close";
 import CommonTable from "../table/CommonTable";
+import { useDispatch, useSelector } from "react-redux";
+import { closeModal } from "../../redux/features/comments/commentSlice";
+import { useEffect } from "react";
+import { fetchData } from "../../redux/api/apiCalls";
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+const columns = ["Id", "Name", "Email", "Post Id", "Body"];
 
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
+const Comments = () => {
+  const open = useSelector((state) => state.comment.isOpen);
+  const rows = useSelector((state) => state.comment.comments);
+  const postId = useSelector((state) => state.comment.postId);
+  const dispatch = useDispatch();
+  const close = () => {
+    dispatch(closeModal());
+  };
 
-const columns = [
-  "Dessert (100g serving)",
-  "Calories",
-  "Fat (g)",
-  "Carbs (g)",
-  "Protein (g)",
-  "View",
-];
+  useEffect(() => {
+    fetchData(
+      `https://jsonplaceholder.typicode.com/posts/${postId}/comments`,
+      "comments",
+      dispatch
+    );
+  }, [postId]);
 
-const Comments = ({ open }) => {
   return (
     <StyledModal open={open}>
       <Box
@@ -47,19 +47,19 @@ const Comments = ({ open }) => {
           <CardHeader
             title="Comments"
             action={
-              <IconButton aria-label="close">
+              <IconButton aria-label="close" onClick={close}>
                 <CloseIcon />
               </IconButton>
             }
           />
           <CardContent>
-            <CommonTable columns={columns} rows={rows} />
+            <CommonTable tableFor="comments" columns={columns} rows={rows} />
             <Box sx={{ display: "flex", justifyContent: "flex-end" }} mt={5}>
               <ButtonGroup
                 variant="contained"
                 aria-label="outlined primary button group"
               >
-                <Button>Back</Button>
+                <Button onClick={close}>Back</Button>
               </ButtonGroup>
             </Box>
           </CardContent>
