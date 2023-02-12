@@ -1,10 +1,10 @@
+import Home from "./routes/home/Home"
 
 
 const App = () => {
   return (
-    <div>
-      Hello
-    </div>
+    <Home />
+
   );
 }
 
